@@ -11,19 +11,21 @@ function updateLastUpdatedTime() {
 // Fetch logs from the backend
 async function fetchLogs() {
     try {
-        const response = await fetch('http://192.168.196.67:5000/data');  // Adjust URL when backend is ready
+        const response = await fetch('http://192.168.0.145:5000/data');
         const data = await response.json();
 
         const logList = document.getElementById('log-list');
-        logList.innerHTML = '';  // Clear any existing content
+        logList.innerHTML = ''; // Clear any existing content
 
         if (data && data.length > 0) {
             data.forEach(item => {
                 const logItem = document.createElement('div');
                 logItem.classList.add('log-item');
                 logItem.innerHTML = `
-                    <p><strong>Timestamp:</strong> ${item.timestamp}</p>
-                    <p><strong>Log Data:</strong> ${item.data}</p>
+                    <p><strong>ID:</strong> ${item[0]}</p>
+                    <p><strong>Message:</strong> ${item[1]}</p>
+                    <p><strong>Level:</strong> ${item[2]}</p>
+                    <p><strong>Timestamp:</strong> ${item[3]}</p>
                 `;
                 logList.appendChild(logItem);
             });
@@ -35,6 +37,7 @@ async function fetchLogs() {
         updateLastUpdatedTime();
     } catch (error) {
         console.error('Error fetching logs:', error);
+        document.getElementById('log-list').innerHTML = 'Failed to load logs.';
     }
 }
 
