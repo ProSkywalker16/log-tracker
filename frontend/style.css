@@ -5,51 +5,91 @@
     box-sizing: border-box;
 }
 
+/* Body & Background */
 body {
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(to right, #2c3e50, #34495e);  /* Dark blue gradient */
+    background: linear-gradient(to right, #2c3e50, #34495e);
     color: white;
     padding: 20px;
 }
 
+/* Header */
 header {
     background-color: rgba(44, 62, 80, 0.9);
     color: white;
     padding: 20px;
-    text-align: center;
     border-radius: 10px;
     margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 header h1 {
     font-size: 2em;
-    margin-bottom: 10px;
 }
 
 #user-info {
-    font-size: 1.1em;
-    color: #f5f5dc;  /* Beige color for user info */
+    font-size: 1em;
+    color: #f5f5dc;  /* Beige */
+    text-align: right;
 }
 
 #user-info span {
     display: block;
-    margin-top: 5px;
 }
 
+/* Nav controls inside header */
+header nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 20px;
+}
+
+header nav button,
+header nav select,
+header nav input {
+    background: #34495e;
+    color: #f5f5dc;
+    border: 1px solid #627aa3;
+    padding: 6px 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+header nav button:hover {
+    background: #3c5a78;
+}
+
+header nav select {
+    cursor: pointer;
+}
+
+header nav input {
+    width: 150px;
+}
+
+/* Log Container */
 #log-container {
-    background-color: rgba(236, 240, 241, 0.9);  /* Light grayish background */
-    color: #2c3e50;  /* Dark text for readability */
+    background-color: rgba(236, 240, 241, 0.9);
+    color: #2c3e50;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 #log-container h2 {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     font-size: 1.5em;
-    color: #2c3e50;  /* Dark text for headings */
+    color: #2c3e50;
 }
 
+#log-container h2 #log-count {
+    color: #e74c3c;
+}
+
+/* Log List Grid */
 #log-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -57,9 +97,10 @@ header h1 {
     margin-top: 20px;
 }
 
+/* Individual Log Tiles */
 .log-item {
-    background-color: #34495e;  /* Dark tile color for individual log items */
-    color: white;  /* White text for readability */
+    background-color: #34495e;
+    color: white;
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
@@ -76,6 +117,7 @@ header h1 {
     margin: 10px 0;
 }
 
+/* Footer */
 footer {
     text-align: center;
     margin-top: 30px;
@@ -83,13 +125,126 @@ footer {
     color: #95a5a6;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    #log-container {
-        padding: 15px;
-    }
+/* Chat UI */
+/* Desktop: make chat-app wider */
+#chat-app {
+    width: 80%;           /* ← changed: span 80% of viewport */
+    max-width: 900px;     /* ← changed: but never exceed 900px */
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+}
 
+#chat-window {
+    flex: 1;
+    background: #282a36;
+    padding: 10px;
+    border-radius: 6px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+#chat-window .user,
+#chat-window .bot {
+    max-width: 80%;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 12px;
+}
+
+#chat-window .user {
+    align-self: flex-end;
+    background: #50fa7b;
+    color: #282a36;
+}
+
+#chat-window .bot {
+    align-self: flex-start;
+    background: #44475a;
+    color: #f8f8f2;
+}
+
+#chat-form {
+    display: flex;
+    margin-top: 10px;
+}
+
+#chat-input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 4px 0 0 4px;
+    background: #44475a;
+    color: #f8f8f2;
+}
+
+#chat-form button {
+    border: none;
+    background: #6272a4;
+    color: #f8f8f2;
+    padding: 10px 15px;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+}
+
+#chat-form button:hover {
+    background: #7082b6;
+}
+
+/* Responsive Design for Main Layout */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    header nav {
+        flex-wrap: wrap;
+        gap: 5px;
+    }
     #log-list {
         grid-template-columns: 1fr;
+    }
+}
+
+/* Chat‑page responsiveness (≤600px) */
+@media (max-width: 600px) {
+    /* Chat container full width & auto height */
+    #chat-app {
+        width: 100%;      /* ← full width on small screens */
+        height: auto;     /* ← grow with content */
+        margin: 10px;     /* ← smaller margin */
+    }
+
+    /* chat-window height shorter on mobile */
+    #chat-window {
+        height: 60vh;     /* ← use 60% of viewport height */
+        padding: 8px;
+    }
+
+    /* Bubbles full width */
+    #chat-window .user,
+    #chat-window .bot {
+        max-width: 100%;
+        padding: 8px;
+        font-size: 0.9em;
+    }
+
+    /* Stack input & button vertically */
+    #chat-form {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    #chat-input {
+        width: 100%;
+        border-radius: 4px;
+    }
+
+    #chat-form button {
+        width: 100%;
+        border-radius: 4px;
     }
 }

@@ -1,51 +1,77 @@
-// Simulate logged-in user info (replace with real data from backend)
-const loggedInUser = 'John Doe';
+// — Username prompt & display —
+let user = localStorage.getItem('username');
+if (!user) {
+  user = prompt('Welcome! Please enter your name:') || 'Guest';
+  localStorage.setItem('username', user);
+}
+document.querySelector('#username strong').textContent = user;
 
-// Update last updated time
+// — Elements & state —
+const logList        = document.getElementById('log-list');
+const logCountEl     = document.getElementById('log-count');
+const lastUpdateEl   = document.getElementById('last-update-time');
+const refreshBtn     = document.getElementById('refresh-btn');
+const severityFilter = document.getElementById('severity-filter');
+const searchBox      = document.getElementById('search-box');
+const chatBtn        = document.getElementById('chat-btn');
+
+let allLogs = [];  // will hold fetched logs
+
+// — Update “last updated” timestamp —
 function updateLastUpdatedTime() {
-    const lastUpdate = new Date();
-    const formattedTime = `${lastUpdate.getHours()}:${lastUpdate.getMinutes()}:${lastUpdate.getSeconds()}`;
-    document.getElementById('last-update-time').innerHTML = `Last updated: <strong>${formattedTime}</strong>`;
+  const now = new Date();
+  lastUpdateEl.innerHTML = `Last updated: <strong>${now.toLocaleTimeString()}</strong>`;
 }
 
-// Fetch logs from the backend
+// — Render logs with filters applied —
+function renderLogs() {
+  const level  = severityFilter.value;
+  const search = searchBox.value.toLowerCase();
+
+  const filtered = allLogs.filter(r => {
+    const msg = r[1].toLowerCase();
+    return ( !level || r[2] === level )
+        && ( !search || msg.includes(search) );
+  });
+
+  logList.innerHTML = '';
+  filtered.forEach(r => {
+    const d = document.createElement('div');
+    d.className = 'log-item';
+    d.innerHTML = `
+      <p><strong>ID:</strong> ${r[0]}</p>
+      <p><strong>Message:</strong> ${r[1]}</p>
+      <p><strong>Level:</strong> ${r[2]}</p>
+      <p><strong>Timestamp:</strong> ${r[3]}</p>
+    `;
+    logList.appendChild(d);
+  });
+
+  logCountEl.textContent = filtered.length;
+}
+
+// — Fetch logs from backend —
 async function fetchLogs() {
-    try {
-        const response = await fetch('http://192.168.0.141:5000/data');
-        const data = await response.json();
-
-        const logList = document.getElementById('log-list');
-        logList.innerHTML = ''; // Clear any existing content
-
-        if (data && data.length > 0) {
-            data.forEach(item => {
-                const logItem = document.createElement('div');
-                logItem.classList.add('log-item');
-                logItem.innerHTML = `
-                    <p><strong>ID:</strong> ${item[0]}</p>
-                    <p><strong>Message:</strong> ${item[1]}</p>
-                    <p><strong>Level:</strong> ${item[2]}</p>
-                    <p><strong>Timestamp:</strong> ${item[3]}</p>
-                `;
-                logList.appendChild(logItem);
-            });
-        } else {
-            logList.innerHTML = 'No logs available.';
-        }
-
-        // Update last updated time
-        updateLastUpdatedTime();
-    } catch (error) {
-        console.error('Error fetching logs:', error);
-        document.getElementById('log-list').innerHTML = 'Failed to load logs.';
-    }
+  try {
+    const resp = await fetch('http://192.168.0.141:5000/data');
+    const data = await resp.json();
+    allLogs = data;
+    renderLogs();
+    updateLastUpdatedTime();
+  } catch (err) {
+    console.error('Error fetching logs:', err);
+    logList.innerHTML = '<p style="color:red;">Failed to load logs.</p>';
+  }
 }
 
-// Display the logged-in user info
-document.getElementById('username').innerHTML = `Logged in as: <strong>${loggedInUser}</strong>`;
+// — Event listeners —
+refreshBtn.addEventListener('click', fetchLogs);
+severityFilter.addEventListener('change', renderLogs);
+searchBox.addEventListener('input', renderLogs);
+chatBtn.addEventListener('click', () => window.location.href = 'chat.html');
 
-// Fetch logs every 10 seconds to keep the display updated
-setInterval(fetchLogs, 10000);
+// — Auto‑refresh every 20 seconds —
+setInterval(fetchLogs, 20000);
 
-// Run fetchLogs when the page loads
+// — Initial load —
 window.onload = fetchLogs;

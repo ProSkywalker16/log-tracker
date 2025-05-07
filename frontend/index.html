@@ -1,31 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log Tracker</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Log Tracker</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <header>
-        <h1>Log Tracker</h1>
-        <div id="user-info">
-            <span id="username">Logged in as: <strong>John Doe</strong></span>
-            <span id="last-update-time">Last updated: <strong>Loading...</strong></span>
-        </div>
-    </header>
-
-    <div id="log-container">
-        <h2>Log Data</h2>
-        <div id="log-list">
-            <!-- This is where the log data will be displayed dynamically -->
-        </div>
+  <header>
+    <h1>Log Tracker</h1>
+    <div id="user-info">
+      <span id="username">Logged in as: <strong></strong></span>
+      <span id="last-update-time">Last updated: <strong>Loading...</strong></span>
     </div>
+    <nav>
+      <button id="refresh-btn">🔄 Refresh</button>
+      <select id="severity-filter">
+        <option value="">All Levels</option>
+        <option value="INFO">INFO</option>
+        <option value="WARNING">WARNING</option>
+        <option value="ERROR">ERROR</option>
+      </select>
+      <input id="search-box" type="text" placeholder="Search messages…" />
+      <button id="chat-btn">💬 Chat</button>
+    </nav>
+  </header>
 
-    <footer>
-        <p>&copy; 2025 Log Tracker. All rights reserved.</p>
-    </footer>
+  <div id="log-container">
+    <h2>Log Data (<span id="log-count">0</span>)</h2>
+    <div id="log-list">
+      <!-- Dynamic log tiles go here -->
+    </div>
+  </div>
 
-    <script src="script.js"></script>
+  <footer>
+    <p>&copy; 2025 Log Tracker. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
