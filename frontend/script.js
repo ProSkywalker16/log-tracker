@@ -11,7 +11,7 @@ function updateLastUpdatedTime() {
 // Fetch logs from the backend
 async function fetchLogs() {
     try {
-        const response = await fetch('http://192.168.0.145:5000/data');
+        const response = await fetch('http://192.168.0.141:5000/data');
         const data = await response.json();
 
         const logList = document.getElementById('log-list');
