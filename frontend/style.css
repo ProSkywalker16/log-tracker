@@ -70,6 +70,22 @@ header nav input {
     width: 150px;
 }
 
+/* Logout button style */
+#logout-btn {
+    background: #c0392b;
+    color: #f5f5dc;
+    border: 1px solid #e74c3c;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+#logout-btn:hover {
+    background: #e74c3c;
+}
+
 /* Log Container */
 #log-container {
     background-color: rgba(236, 240, 241, 0.9);
@@ -126,10 +142,9 @@ footer {
 }
 
 /* Chat UI */
-/* Desktop: make chat-app wider */
 #chat-app {
-    width: 80%;           /* ← changed: span 80% of viewport */
-    max-width: 900px;     /* ← changed: but never exceed 900px */
+    width: 80%;
+    max-width: 900px;
     margin: 20px auto;
     display: flex;
     flex-direction: column;
@@ -211,20 +226,17 @@ footer {
 
 /* Chat‑page responsiveness (≤600px) */
 @media (max-width: 600px) {
-    /* Chat container full width & auto height */
     #chat-app {
-        width: 100%;      /* ← full width on small screens */
-        height: auto;     /* ← grow with content */
-        margin: 10px;     /* ← smaller margin */
+        width: 100%;
+        height: auto;
+        margin: 10px;
     }
 
-    /* chat-window height shorter on mobile */
     #chat-window {
-        height: 60vh;     /* ← use 60% of viewport height */
+        height: 80vh;
         padding: 8px;
     }
 
-    /* Bubbles full width */
     #chat-window .user,
     #chat-window .bot {
         max-width: 100%;
@@ -232,10 +244,9 @@ footer {
         font-size: 0.9em;
     }
 
-    /* Stack input & button vertically */
     #chat-form {
         flex-direction: column;
-        gap: 8px;
+        gap: 10px;
     }
 
     #chat-input {

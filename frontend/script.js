@@ -6,6 +6,15 @@ if (!user) {
 }
 document.querySelector('#username strong').textContent = user;
 
+// — Logout logic —
+const logoutBtn = document.getElementById('logout-btn');
+if (logoutBtn) {
+  logoutBtn.addEventListener('click', () => {
+    localStorage.removeItem('username');
+    location.reload();  // triggers new prompt on reload
+  });
+}
+
 // — Elements & state —
 const logList        = document.getElementById('log-list');
 const logCountEl     = document.getElementById('log-count');
@@ -30,8 +39,8 @@ function renderLogs() {
 
   const filtered = allLogs.filter(r => {
     const msg = r[1].toLowerCase();
-    return ( !level || r[2] === level )
-        && ( !search || msg.includes(search) );
+    return (!level || r[2] === level) &&
+           (!search || msg.includes(search));
   });
 
   logList.innerHTML = '';
