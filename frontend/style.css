@@ -88,7 +88,7 @@ header nav input {
 
 /* Log Container */
 #log-container {
-    background-color: rgba(236, 240, 241, 0.9);
+    background-color: #0785b3;
     color: #2c3e50;
     padding: 20px;
     border-radius: 1px;
@@ -101,11 +101,11 @@ header nav input {
 #log-container h2 {
     margin-bottom: 10px;
     font-size: 1.5em;
-    color: #2c3e50;
+    color: #000000;
 }
 
 #log-container h2 #log-count {
-    color: #e74c3c;
+    color: #ffffff;
 }
 
 /* Log List Grid */
@@ -265,8 +265,8 @@ footer {
 
 /* === Chart Size Control === */
 #categoryPieChart {
-    width: 350px; /* Adjusted width */
-    height: 350px; /* Adjusted height */
+    width: 450px; /* Adjusted width */
+    height: 450px; /* Adjusted height */
     margin: 0 auto 20px auto;
     display: block;
 }
@@ -277,4 +277,9 @@ footer {
 
 /* === Colored Borders by Severity === */
 /* Colored Borders by Severity */
-
+.log-item[data-level="INFO"]      { border-left: 5px solid #800080; }
+.log-item[data-level="LOW"]       { border-left: 5px solid #008000; }
+.log-item[data-level="MEDIUM"]    { border-left: 5px solid #FFD700; }
+.log-item[data-level="HIGH"]      { border-left: 5px solid #FFA500; }
+.log-item[data-level="CRITICAL"]  { border-left: 5px solid #FF0000; }
+.log-item[data-level="EMERGENCY"] { border-left: 5px solid #A52A2A; }
