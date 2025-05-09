@@ -91,8 +91,11 @@ header nav input {
     background-color: rgba(236, 240, 241, 0.9);
     color: #2c3e50;
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 1px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    /* Remove or adjust max-height for proper container expansion */
+    max-height: none;  
+    overflow-y: auto;
 }
 
 #log-container h2 {
@@ -259,3 +262,19 @@ footer {
         border-radius: 4px;
     }
 }
+
+/* === Chart Size Control === */
+#categoryPieChart {
+    width: 350px; /* Adjusted width */
+    height: 350px; /* Adjusted height */
+    margin: 0 auto 20px auto;
+    display: block;
+}
+
+
+
+
+
+/* === Colored Borders by Severity === */
+/* Colored Borders by Severity */
+
