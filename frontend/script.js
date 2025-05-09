@@ -113,7 +113,7 @@ function renderLogs() {
 // — Fetch logs from backend —
 async function fetchLogs() {
   try {
-    const resp = await fetch('http://192.168.0.170:5000/data');
+    const resp = await fetch('http://192.168.0.182:5000/data');
     allLogs = await resp.json();
 
     renderLogs();
