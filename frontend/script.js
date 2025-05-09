@@ -16,13 +16,13 @@ if (logoutBtn) {
 }
 
 // — Elements & state —
-const logList        = document.getElementById('log-list');
-const logCountEl     = document.getElementById('log-count');
-const lastUpdateEl   = document.getElementById('last-update-time');
-const refreshBtn     = document.getElementById('refresh-btn');
+const logList = document.getElementById('log-list');
+const logCountEl = document.getElementById('log-count');
+const lastUpdateEl = document.getElementById('last-update-time');
+const refreshBtn = document.getElementById('refresh-btn');
 const severityFilter = document.getElementById('severity-filter');
-const searchBox      = document.getElementById('search-box');
-const chatBtn        = document.getElementById('chat-btn');
+const searchBox = document.getElementById('search-box');
+const chatBtn = document.getElementById('chat-btn');
 
 let allLogs = [];
 let categoryChart = null;
@@ -50,18 +50,41 @@ function getCategoryData(logs) {
   return { labels, data, colors };
 }
 
-// — Create or update pie chart —
+// — Create or update donut chart with 5s animation —
 function updatePieChart(labels, data, colors) {
   const ctx = document.getElementById('categoryPieChart').getContext('2d');
   if (!categoryChart) {
     categoryChart = new Chart(ctx, {
-      type: 'pie',
-      data: { labels, datasets: [{ data, backgroundColor: colors, hoverOffset: 10 }] },
+      type: 'doughnut',
+      data: {
+        labels,
+        datasets: [{
+          data,
+          backgroundColor: colors,
+          hoverOffset: 10
+        }]
+      },
       options: {
         responsive: true,
+        cutout: '60%',
+        animation: {
+          animateRotate: true,   // rotate animation
+          duration: 2000          // 3000ms = 3 seconds
+        },
         plugins: {
-          legend: { position: 'bottom' },
-          title: { display: true, text: 'Logs by Severity Level' }
+          legend: {
+            position: 'bottom',
+            labels: { color: 'white' },
+            size: 15
+          },
+          title: {
+            display: true,
+            text: 'Logs by Severity Level',
+            color: 'white',
+            font: {
+              size: 20
+            }
+          }
         }
       }
     });
@@ -69,6 +92,9 @@ function updatePieChart(labels, data, colors) {
     categoryChart.data.labels = labels;
     categoryChart.data.datasets[0].data = data;
     categoryChart.data.datasets[0].backgroundColor = colors;
+    // ensure legend/title remain white after updates
+    categoryChart.options.plugins.legend.labels.color = 'white';
+    categoryChart.options.plugins.title.color = 'white';
     categoryChart.update();
   }
 }
@@ -81,7 +107,7 @@ function updateLastUpdatedTime() {
 
 // — Render logs with inline colored border —
 function renderLogs() {
-  const level  = severityFilter.value;
+  const level = severityFilter.value;
   const search = searchBox.value.toLowerCase();
 
   const filtered = allLogs.filter(r => {
@@ -95,9 +121,7 @@ function renderLogs() {
     const sev = String(r[2]).toUpperCase().trim();
     const d = document.createElement('div');
     d.className = 'log-item';
-    // set inline left border color according to severity
-    const color = severityColors[sev] || '#cccccc';
-    d.style.borderLeft = `5px solid ${color}`;
+    d.style.borderLeft = `5px solid ${severityColors[sev] || '#cccccc'}`;
     d.innerHTML = `
       <p><strong>ID:</strong> ${r[0]}</p>
       <p><strong>Message:</strong> ${r[1]}</p>
@@ -118,7 +142,6 @@ async function fetchLogs() {
 
     renderLogs();
 
-    // Compute chart data & update chart
     const { labels, data: counts, colors } = getCategoryData(allLogs);
     updatePieChart(labels, counts, colors);
 
@@ -135,8 +158,8 @@ severityFilter.addEventListener('change', renderLogs);
 searchBox.addEventListener('input', renderLogs);
 chatBtn.addEventListener('click', () => window.location.href = 'chat.html');
 
-// — Auto‑refresh every 10 seconds —
-setInterval(fetchLogs, 10000);
+// — Auto‑refresh every 15 seconds —
+setInterval(fetchLogs, 15000);
 
 // — Initial load —
 window.onload = fetchLogs;
