@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Chart from "chart.js/auto";
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react';
+import Sidebar from '../components/Sidebar';
 
 
 const severityColors = {
@@ -49,39 +50,53 @@ const App = () => {
   };
 
   const updatePieChart = (logData) => {
-    const counts = logData.reduce((acc, log) => {
-      const level = String(log[2]).toUpperCase().trim(); // normalize
-      acc[level] = (acc[level] || 0) + 1;
-      return acc;
-    }, {});
+  const counts = logData.reduce((acc, log) => {
+    const level = String(log[2]).toUpperCase().trim(); // normalize
+    acc[level] = (acc[level] || 0) + 1;
+    return acc;
+  }, {});
 
-    const labels = Object.keys(counts);
-    const data = Object.values(counts);
-    const colors = labels.map((l) => severityColors[l] || "#cccccc");
+  const labels = Object.keys(counts);
+  const data = Object.values(counts);
+  const colors = labels.map((l) => severityColors[l] || "#cccccc");
 
-    if (pieChart.current) {
-      pieChart.current.destroy();
-    }
+  if (pieChart.current) {
+    pieChart.current.destroy();
+  }
 
-    pieChart.current = new Chart(chartRef.current, {
-      type: "doughnut",
-      data: {
-        labels,
-        datasets: [{
-          data,
-          backgroundColor: colors,
-          hoverOffset: 10,
-        }],
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: { position: "bottom" },
-          title: { display: true, text: "Logs by Severity Level" },
+  pieChart.current = new Chart(chartRef.current, {
+    type: "doughnut",
+    data: {
+      labels,
+      datasets: [{
+        data,
+        backgroundColor: colors,
+        hoverOffset: 10,
+      }],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: "bottom",
+          labels: {
+            color: "#ffffff", // Make legend text white
+          },
+        },
+        title: {
+          display: true,
+          text: "Logs by Severity Level",
+          color: "#ffffff", // Make title text white
+        },
+        tooltip: {
+          bodyColor: "#ffffff",   // Tooltip text color
+          titleColor: "#ffffff",  // Tooltip title color
         },
       },
-    });
-  };
+    },
+  });
+};
+
 
   const handleLogout = () => {
     localStorage.removeItem("username");
@@ -95,16 +110,16 @@ const App = () => {
   });
 
   return (
-    <div className="w-full text-white">
-      <header>
+    <div className=" w-full text-white">
+      {/* <header>
       <SignedOut>
         <SignInButton />
       </SignedOut>
       <SignedIn>
         <UserButton />
       </SignedIn>
-    </header>
-      <header className="bg-slate-800 rounded-lg mb-5 p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+    </header> */}
+      {/* <header className=" rounded-lg mb-5 p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <h1 className="text-2xl font-bold">Log Tracker</h1>
         <div className="text-beige text-sm text-right">
           <div>Logged in as: <strong>{username}</strong></div>
@@ -125,16 +140,18 @@ const App = () => {
           <button onClick={() => window.location.href = 'chat.html'} className="bg-slate-700 hover:bg-slate-600 border border-slate-500 px-3 py-1 rounded">💬 Chat</button>
           <button onClick={handleLogout} className="bg-red-700 hover:bg-red-600 border border-red-500 px-3 py-1 rounded">🚪 Logout</button>
         </nav>
-      </header>
+      </header> */}
 
-      <main className="w-full  text-white p-5 rounded shadow-md">
+      <Sidebar />
+
+      <main className="sm:ml-28 text-white p-5 rounded shadow-md">
         <div className="flex flex-col lg:flex-row gap-6">
 
-          <div className="w-full lg:max-w-[400px] flex justify-center items-center bg-gradient-to-r from-[#15102d] to-[#1b1137] text-white rounded shadow p-4">
+          <div className="shadow-2xl shadow-black w-full lg:max-w-[400px] flex justify-center items-center bg-gradient-to-r from-[#15102d] to-[#1b1137] text-white rounded p-4">
             <canvas ref={chartRef} className="w-[300px] h-[300px]" />
           </div>
 
-          <div className="flex-1 overflow-x-auto rounded shadow bg-gradient-to-r from-[#15102d] to-[#1b1137] text-white p-4">
+          <div className="flex-1 overflow-x-auto rounded shadow-2xl shadow-black bg-gradient-to-r from-[#15102d] to-[#1b1137] text-white p-4">
             <h2 className="text-lg font-semibold mb-2">Log Data (<span className="text-red-600">{filteredLogs.length}</span>)</h2>
             <table className="min-w-full text-sm text-left text-white border border-white/20 rounded-md border-collapse">
               <thead className="text-xs uppercase bg-[#19163F] text-white/80">
@@ -165,7 +182,7 @@ const App = () => {
                     >
                       <td className="px-4 py-3 border border-white/20">{r[0]}</td>
                       <td className="px-4 py-3 border border-white/20">{r[1]}</td>
-                      <td className="px-4 py-3 font-semibold border border-white/20" style={{ color: sevColor }}>
+                      <td className="px-4 py-3 font-bold border border-white/20" style={{ color: sevColor }}>
                         {sev}
                       </td>
                       <td className="px-4 py-3 border border-white/20">{r[3]}</td>
@@ -178,12 +195,13 @@ const App = () => {
 
           </div>
         </div>
+        <footer className="text-center text-sm text-slate-400 mt-10">
+        &copy; 2025 Log Tracker by Peter Sorkar Magi Baji Corpotation (Peter Sorkar is Part Time Vigilante in DHORMOTALA - BALLYGUNGE area). All rights reserved. (Peter Sorkar Bou Dorkar).
+      </footer>
       </main>
 
 
-      <footer className="text-center text-sm text-slate-400 mt-10">
-        &copy; 2025 Log Tracker by Peter Sorkar INC (Part Time Vigilante in DHORMOTAL BALLYGUNJE). All rights reserved.
-      </footer>
+      
     </div>
   );
 };
