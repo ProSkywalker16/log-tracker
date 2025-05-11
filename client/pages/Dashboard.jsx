@@ -158,10 +158,10 @@ const Dashboard = () => {
               <thead className="text-xs uppercase bg-[#19163F] text-white/80">
                 <tr>
                   <th className="px-4 py-3 font-medium border border-white/20">ID</th>
+                  <th className="px-4 py-3 font-medium border border-white/20">Timestamp</th>
                   <th className="px-4 py-3 font-medium border border-white/20">Message</th>
                   <th className="px-4 py-3 font-medium border border-white/20">Level</th>
-                  <th className="px-4 py-3 font-medium border border-white/20">Timestamp</th>
-                  <th className="px-4 py-3 font-medium border border-white/20">IP</th>
+                  <th className="px-4 py-3 font-medium border border-white/20">IP Address</th>
                 </tr>
               </thead>
               <tbody className="bg-[#0D0B36]">
