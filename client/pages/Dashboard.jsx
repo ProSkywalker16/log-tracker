@@ -128,15 +128,7 @@ const Dashboard = () => {
         </div>
         <nav className="flex flex-wrap gap-2">
           <button className="bg-slate-700 hover:bg-slate-600 border border-slate-500 px-3 py-1 rounded" onClick={fetchLogs}>🔄 Refresh</button>
-          <select value={filter} onChange={(e) => setFilter(e.target.value)} className="bg-slate-700 text-beige border border-slate-500 px-2 py-1 rounded">
-            <option value="">All Levels</option>
-            <option value="INFO">INFO</option>
-            <option value="LOW">LOW</option>
-            <option value="MEDIUM">MEDIUM</option>
-            <option value="HIGH">HIGH</option>
-            <option value="CRITICAL">CRITICAL</option>
-            <option value="EMERGENCY">EMERGENCY</option>
-          </select>
+          
           <input type="text" placeholder="Search messages…" value={search} onChange={(e) => setSearch(e.target.value)} className="bg-slate-700 text-beige border border-slate-500 px-2 py-1 rounded w-[150px]" />
           <button onClick={() => window.location.href = 'chat.html'} className="bg-slate-700 hover:bg-slate-600 border border-slate-500 px-3 py-1 rounded">💬 Chat</button>
           <button onClick={handleLogout} className="bg-red-700 hover:bg-red-600 border border-red-500 px-3 py-1 rounded">🚪 Logout</button>
@@ -153,7 +145,24 @@ const Dashboard = () => {
           </div>
 
           <div className="flex-1 overflow-x-auto rounded shadow-2xl shadow-black bg-gradient-to-r from-[#15102d] to-[#1b1137] text-white p-4">
-            <h2 className="text-lg font-semibold mb-2">Log Data (<span className="text-red-600">{filteredLogs.length}</span>)</h2>
+            <div className="flex pb-5 items-center">
+              <h2 className="text-lg font-semibold mb-2">
+                Log Data (<span className="text-red-600">{filteredLogs.length}</span>)
+              </h2>
+              
+              <select
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}
+                className="ml-auto bg-[#29224d] text-beige px-2 py-1 rounded"
+              >
+                <option value="">ALL</option>
+                <option value="INFO">INFO</option>
+                <option value="LOW">LOW</option>
+                <option value="MEDIUM">MEDIUM</option>
+                <option value="HIGH">HIGH</option>
+                <option value="CRITICAL">CRITICAL</option>
+              </select>
+            </div>
             <table className="min-w-full text-sm text-left text-white border border-white/20 rounded-md border-collapse">
               <thead className="text-xs uppercase bg-[#19163F] text-white/80">
                 <tr>
@@ -165,7 +174,7 @@ const Dashboard = () => {
                 </tr>
               </thead>
               <tbody className="bg-[#0D0B36]">
-                {filteredLogs.slice(-8).map((r, idx) => {
+                {filteredLogs.slice(-5).map((r, idx) => {
                   const sev = String(r[3]).toUpperCase().trim();
                   const sevColor = {
                     INFO: "#800080",
@@ -199,7 +208,7 @@ const Dashboard = () => {
           </div>
         </div>
         <footer className="text-center text-sm text-slate-400 mt-10">
-        &copy; 2025 Log Tracker by Peter Sorkar Magi Baji Corpotation (Peter Sorkar is Part Time Vigilante in DHORMOTALA - BALLYGUNGE area). All rights reserved. (Peter Sorkar Bou Dorkar).
+        &copy; 2025 Log Tracker by Peter Sorkar Magi Baji Corporation (Peter Sorkar is Part Time Vigilante in DHORMOTALA - BALLYGUNGE area). All rights reserved. (Peter Sorkar Bou Dorkar).
       </footer>
       </main>
 
