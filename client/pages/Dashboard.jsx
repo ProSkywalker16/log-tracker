@@ -38,7 +38,7 @@ const Dashboard = () => {
 
   const fetchLogs = async () => {
     try {
-      const res = await fetch("http://192.168.0.182:5000/data");     // anurag port
+      const res = await fetch("http://192.168.0.170:5000/data");     // anurag port
       // const res = await fetch("http://192.168.0.170:5000/data");   // promit port
       const data = await res.json();
       setLogs(data);

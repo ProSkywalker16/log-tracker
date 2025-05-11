@@ -31,6 +31,14 @@ def get_data():
     cursor.close()
     return jsonify(data)
 
+@app.route('/users', methods=['GET'])
+def get_users():
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT * FROM users')
+    data = cursor.fetchall()
+    cursor.close()
+    return jsonify(data)
+
 if __name__ == '__main__':
     # debug and host can also be driven by env if you like
     app.run(
