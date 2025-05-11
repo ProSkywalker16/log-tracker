@@ -39,8 +39,36 @@ def get_users():
     cursor.close()
     return jsonify(data)
 
+@app.route('/log_storage', methods=['GET'])
+def get_log_storage():
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT * FROM log_storage')
+    data = cursor.fetchall()
+    cursor.close()
+    return jsonify(data)
+
+@app.route('/log_storage/filter', methods=['GET'])
+def filter_log_storage():
+    severity = request.args.get('severity')
+    ip = request.args.get('ip')
+
+    query = 'SELECT * FROM log_storage WHERE 1=1'
+    params = []
+
+    if severity:
+        query += ' AND severity = %s'
+        params.append(severity)
+    if ip:
+        query += ' AND ip_address = %s'
+        params.append(ip)
+
+    cursor = mysql.connection.cursor()
+    cursor.execute(query, params)
+    data = cursor.fetchall()
+    cursor.close()
+    return jsonify(data)
+
 if __name__ == '__main__':
-    # debug and host can also be driven by env if you like
     app.run(
         debug=True,
         host='0.0.0.0',
