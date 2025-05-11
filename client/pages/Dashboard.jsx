@@ -38,7 +38,7 @@ const Dashboard = () => {
 
   const fetchLogs = async () => {
     try {
-      const res = await fetch("http://192.168.0.170:5000/data");     // honurag port
+      const res = await fetch("http://192.168.0.182:5000/log_storage");     // honurag port
       //("http://192.168.0.170:5000/data");    // proskywalker port
            
       const data = await res.json();
@@ -52,7 +52,7 @@ const Dashboard = () => {
 
   const updatePieChart = (logData) => {
     const counts = logData.reduce((acc, log) => {
-      const level = String(log[2]).toUpperCase().trim(); // normalize
+      const level = String(log[3]).toUpperCase().trim(); // normalize
       acc[level] = (acc[level] || 0) + 1;
       return acc;
     }, {});
@@ -105,7 +105,7 @@ const Dashboard = () => {
   };
 
   const filteredLogs = logs.filter((r) => {
-    const sev = String(r[2]).toUpperCase().trim();
+    const sev = String(r[3]).toUpperCase().trim();
     const msg = r[1].toLowerCase();
     return (!filter || sev === filter) && (!search || msg.includes(search));
   });
@@ -161,11 +161,12 @@ const Dashboard = () => {
                   <th className="px-4 py-3 font-medium border border-white/20">Message</th>
                   <th className="px-4 py-3 font-medium border border-white/20">Level</th>
                   <th className="px-4 py-3 font-medium border border-white/20">Timestamp</th>
+                  <th className="px-4 py-3 font-medium border border-white/20">IP</th>
                 </tr>
               </thead>
               <tbody className="bg-[#0D0B36]">
-                {filteredLogs.map((r, idx) => {
-                  const sev = String(r[2]).toUpperCase().trim();
+                {filteredLogs.slice(-8).map((r, idx) => {
+                  const sev = String(r[3]).toUpperCase().trim();
                   const sevColor = {
                     INFO: "#800080",
                     WARNING: "#A52A2A",
@@ -183,10 +184,11 @@ const Dashboard = () => {
                     >
                       <td className="px-4 py-3 border border-white/20">{r[0]}</td>
                       <td className="px-4 py-3 border border-white/20">{r[1]}</td>
+                      <td className="px-4 py-3 border border-white/20">{r[2]}</td>
                       <td className="px-4 py-3 font-bold border border-white/20" style={{ color: sevColor }}>
                         {sev}
                       </td>
-                      <td className="px-4 py-3 border border-white/20">{r[3]}</td>
+                      <td className="px-4 py-3 border border-white/20">{r[4]}</td>
                     </tr>
                   );
                 })}
