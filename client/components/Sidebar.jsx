@@ -8,7 +8,6 @@ const Sidebar = () => {
 		{ name: 'Home', icon: <Home />, link: '/' },
 		{ name: 'Dashboard', icon: <Grid />, link: '/dashboard' },
 		{ name: 'Database', icon: <Database />, link: '/database' },
-		{ name: 'Threat Catalog', icon: <BookOpen />, link: '/catalog' },
 		{ name: 'Settings', icon: <Settings />, link: '/settings' },
 	];
 
