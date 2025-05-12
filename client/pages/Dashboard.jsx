@@ -39,7 +39,7 @@ const Dashboard = () => {
   const fetchLogs = async () => {
     try {
       // const res = await fetch("http://192.168.0.182:5000/log_storage");     // honurag port
-      const res = await fetch("http://192.168.0.182:5000/log_storage");    // proskywalker port
+      const res = await fetch("http://192.168.0.170:5000/log_storage");    // proskywalker port
            
       const data = await res.json();
       setLogs(data);
@@ -207,7 +207,7 @@ const Dashboard = () => {
           </div>
         </div>
         <footer className="text-center text-sm text-slate-400 mt-10">
-        &copy; 2025 Log Tracker by Peter Sorkar Magi Baji Corporation (Peter Sorkar is Part Time Vigilante in DHORMOTALA - BALLYGUNGE area). All rights reserved. (Peter Sorkar Bou Dorkar).
+        &copy; 2025 Log Tracker by Proskywalker, Honurag Hottacharjee, Holy Father aka RIYAL POPE..
       </footer>
       </main>
 

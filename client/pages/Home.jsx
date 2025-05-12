@@ -51,7 +51,7 @@ function Home() {
         </div>
 
         <footer className="text-center text-sm text-slate-400 mt-10">
-          &copy; 2025 Log Tracker by Peter Sorkar Magi Baji Corporation (Peter Sorkar is Part Time Vigilante in DHORMOTALA - BALLYGUNGE area). All rights reserved. (Peter Sorkar Bou Dorkar).
+          &copy; 2025 Log Tracker by Proskywalker, Honurag Hottacharjee, Holy Father aka RIYAL POPE.
         </footer>
       </main>
     </div>
