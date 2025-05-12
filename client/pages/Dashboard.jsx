@@ -135,8 +135,7 @@ const Dashboard = () => {
         </nav>
       </header> */}
 
-      <Sidebar />
-
+      
       <main className="sm:ml-28 text-white p-5 rounded shadow-md">
         <div className="flex flex-col lg:flex-row gap-6">
 
