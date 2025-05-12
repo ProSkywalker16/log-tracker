@@ -1,31 +1,60 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Dashboard from '../pages/Dashboard'
+import { createBrowserRouter, RouterProvider, Navigate, Outlet } from 'react-router-dom';
+import Dashboard from '../pages/Dashboard';
+import Home from '../pages/Home';
+import MainLayout from '../layout/MainLayout';
+import Database from '../pages/Database';
+import Settings from '../pages/Settings';
+import React from 'react';
+
+// Route guard component
+const PrivateRoute = ({ children }) => {
+  const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+  return isAuthenticated ? children : <Navigate to="/" replace />;
+};
 
 const appRouter = createBrowserRouter([
-	{
-		path: '/',
-		element: <Dashboard />,
+  {
+    path: '/',
+    element: <MainLayout />,
     children: [
       {
-        path: '/dashboard',
-        element: 
-          <>
-            <Dashboard />
-          </>
+        path: '/',
+        element: <Home />
       },
+      {
+        path: '/dashboard',
+        element: (
+          <PrivateRoute>
+            <Dashboard />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: '/database',
+        element: (
+          <PrivateRoute>
+            <Database />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: '/settings',
+        element: (
+          <PrivateRoute>
+            <Settings />
+          </PrivateRoute>
+        )
+      }
     ]
-	}
-])
-
+  }
+]);
 
 function App() {
   return (
-    <>
-      <main>
-        <RouterProvider router={appRouter} />
-      </main>
-    </>
-  )
+    <main>
+      <RouterProvider router={appRouter} />
+    </main>
+  );
 }
 
-export default App
+export default App;

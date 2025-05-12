@@ -38,8 +38,8 @@ const Dashboard = () => {
 
   const fetchLogs = async () => {
     try {
-      const res = await fetch("http://192.168.0.170:5000/log_storage");     // honurag port
-      //("http://192.168.0.170:5000/data");    // proskywalker port
+      // const res = await fetch("http://192.168.0.182:5000/log_storage");     // honurag port
+      const res = await fetch("http://192.168.0.182:5000/log_storage");    // proskywalker port
            
       const data = await res.json();
       setLogs(data);
@@ -135,8 +135,7 @@ const Dashboard = () => {
         </nav>
       </header> */}
 
-      <Sidebar />
-
+      
       <main className="sm:ml-28 text-white p-5 rounded shadow-md">
         <div className="flex flex-col lg:flex-row gap-6">
 
