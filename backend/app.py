@@ -4,6 +4,7 @@ from flask_mysqldb import MySQL
 from flask_cors import CORS
 from dotenv import load_dotenv
 import os
+from utils.ipinfofetcher import getIPDetails
 
 # Load .env into environment
 load_dotenv()
@@ -31,6 +32,11 @@ def get_data():
     cursor.close()
     return jsonify(data)
 
+@app.route('/log_storage/ipinfo', methods=['GET'])
+def get_ipinfo():
+    ip_address = request.args.get('ip_address')
+    return jsonify(getIPDetails(ip_address))
+
 @app.route('/users', methods=['GET'])
 def get_users():
     cursor = mysql.connection.cursor()
@@ -45,6 +51,7 @@ def get_log_storage():
     cursor.execute('SELECT * FROM log_storage')
     data = cursor.fetchall()
     cursor.close()
+    print(data[0][4])
     return jsonify(data)
 
 @app.route('/log_storage/filter', methods=['GET'])
