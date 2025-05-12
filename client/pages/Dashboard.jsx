@@ -6,7 +6,7 @@ import Sidebar from '../components/Sidebar';
 const severityColors = {
   INFO: "#800080",
   LOW: "#008000",
-  MEDIUM: "#FFD700",
+  MEDIUM: "#fbf295",
   HIGH: "#FFA500",
   CRITICAL: "#FF0000",
   WARNING: "#A52A2A",

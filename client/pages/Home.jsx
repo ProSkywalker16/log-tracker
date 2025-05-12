@@ -26,7 +26,7 @@ function Home() {
       <div className="min-h-screen flex flex-col items-center justify-center text-white">
         <img src="/logo.jpg" alt="" className="h-96" />
         <h1 className="text-4xl font-bold mb-4">Welcome to Obi Watch Kenobi</h1>
-        <p className="mb-6 text-gray-400">Track logs like never before.</p>
+        <p className="mb-6 text-gray-400 text-3xl">Hello there! This is the guardian of your logs!.</p>
         <button
           onClick={handleLogin}
           className="px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded"
