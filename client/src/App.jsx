@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Dashboard from '../pages/Dashboard'
+import Register from '../pages/Register'
 
 const appRouter = createBrowserRouter([
 	{
@@ -14,7 +15,11 @@ const appRouter = createBrowserRouter([
           </>
       },
     ]
-	}
+	},
+  {
+    path: '/register',
+    element: <Register />
+  }
 ])
 
 
