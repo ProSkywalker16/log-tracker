@@ -196,7 +196,7 @@ const Dashboard = () => {
                       <td className="px-4 py-3 font-bold border border-white/20" style={{ color: sevColor }}>
                         {sev}
                       </td>
-                      <td className="px-4 py-3 border border-white/20">{r[4]}</td>
+                      <td className="px-4 py-3 border border-white/20"><a href="">{r[4]}</a></td>
                     </tr>
                   );
                 })}

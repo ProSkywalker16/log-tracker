@@ -1,10 +1,10 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Dashboard from '../pages/Dashboard'
-import Register from '../pages/Register'
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
+import Dashboard from '../pages/Dashboard';
 import Home from '../pages/Home';
 import MainLayout from '../layout/MainLayout';
 import Database from '../pages/Database';
 import Settings from '../pages/Settings';
+import Login from '../pages/Login';
 import React from 'react';
 
 // Route guard component
@@ -49,8 +49,8 @@ const appRouter = createBrowserRouter([
     ]
 	},
   {
-    path: '/register',
-    element: <Register />
+    path: '/login',
+    element: <Login />
   }
 ]);
 
