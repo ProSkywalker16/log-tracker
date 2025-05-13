@@ -29,7 +29,8 @@ const IPInfo = () => {
     useEffect(() => {
         const fetchIPInfo = async () => {
             try {
-                const response = await fetch(`http://192.168.0.170:5000/log_storage/ipinfo?ip_address=${ip}`);
+                // const response = await fetch(`http://192.168.0.170:5000/log_storage/ipinfo?ip_address=${ip}`);
+                const response = await fetch(`http://192.168.0.182:5000/log_storage/ipinfo?ip_address=${ip}`);
                 const data = await response.json();
                 const md = new Map(Object.entries(JSON.parse(data)));
                 setMappedData(md);
@@ -60,43 +61,50 @@ const IPInfo = () => {
     else {
 // ...existing code...
 return (
-    <main className="sm:ml-28 text-white p-5 rounded shadow-md">
-        <h2 className="text-2xl font-bold mb-4">IP Information</h2>
-        <table className="min-w-[300px] mb-6 bg-white/90 text-gray-900 rounded shadow border border-gray-200">
-            <tbody>
-                <tr>
-                    <th className="text-left px-4 py-2 font-semibold bg-gray-100 border-b border-gray-200">IP Address</th>
-                    <td className="px-4 py-2 border-b border-gray-200">{ip}</td>
-                </tr>
-                <tr>
-                    <th className="text-left px-4 py-2 font-semibold bg-gray-100 border-b border-gray-200">Bogon</th>
-                    <td className="px-4 py-2 border-b border-gray-200">{mapData.get("bogon") ? "true" : "false"}</td>
-                </tr>
-                <tr>
-                    <th className="text-left px-4 py-2 font-semibold bg-gray-100 border-b border-gray-200">City</th>
-                    <td className="px-4 py-2 border-b border-gray-200">{mapData.get("city")}</td>
-                </tr>
-                <tr>
-                    <th className="text-left px-4 py-2 font-semibold bg-gray-100 border-b border-gray-200">Region</th>
-                    <td className="px-4 py-2 border-b border-gray-200">{mapData.get("region")}</td>
-                </tr>
-                <tr>
-                    <th className="text-left px-4 py-2 font-semibold bg-gray-100 border-b border-gray-200">Country</th>
-                    <td className="px-4 py-2 border-b border-gray-200">{mapData.get("country")}</td>
-                </tr>
-                <tr>
-                    <th className="text-left px-4 py-2 font-semibold bg-gray-100 border-b border-gray-200">Latitude</th>
-                    <td className="px-4 py-2 border-b border-gray-200">{mapData.get("latitude")}</td>
-                </tr>
-                <tr>
-                    <th className="text-left px-4 py-2 font-semibold bg-gray-100">Longitude</th>
-                    <td className="px-4 py-2">{mapData.get("longitude")}</td>
-                </tr>
-            </tbody>
-        </table>
-        <div id="map" style={{ height: "180px" }}></div>
-    </main>
-);}
+  <main className="sm:ml-28 text-white p-10 rounded shadow-md">
+    <h2 className="text-2xl font-bold mb-4">IP Information</h2>
+
+    <div className="flex flex-col md:flex-row p-10 gap-6">
+      {/* Table */}
+      <table className="min-w-[300px] md:w-1/2 bg-[#bfbfbf21] text-white rounded shadow border border-gray-700">
+        <tbody>
+          <tr>
+            <th className="text-left px-4 py-2 font-semibold border-b border-gray-700">IP Address</th>
+            <td className="px-4 py-2 border-b border-gray-700">{ip}</td>
+          </tr>
+          <tr>
+            <th className="text-left px-4 py-2 font-semibold border-b border-gray-700">Bogon</th>
+            <td className="px-4 py-2 border-b border-gray-700">{mapData.get("bogon") ? "true" : "false"}</td>
+          </tr>
+          <tr>
+            <th className="text-left px-4 py-2 font-semibold border-b border-gray-700">City</th>
+            <td className="px-4 py-2 border-b border-gray-700">{mapData.get("city")}</td>
+          </tr>
+          <tr>
+            <th className="text-left px-4 py-2 font-semibold border-b border-gray-700">Region</th>
+            <td className="px-4 py-2 border-b border-gray-700">{mapData.get("region")}</td>
+          </tr>
+          <tr>
+            <th className="text-left px-4 py-2 font-semibold border-b border-gray-700">Country</th>
+            <td className="px-4 py-2 border-b border-gray-700">{mapData.get("country")}</td>
+          </tr>
+          <tr>
+            <th className="text-left px-4 py-2 font-semibold border-b border-gray-700">Latitude</th>
+            <td className="px-4 py-2 border-b border-gray-700">{mapData.get("latitude")}</td>
+          </tr>
+          <tr>
+            <th className="text-left px-4 py-2 font-semibold">Longitude</th>
+            <td className="px-4 py-2">{mapData.get("longitude")}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      {/* Map */}
+      <div id="map" className="md:w-3/4 rounded shadow border border-gray-700" style={{ height: "300px" }}></div>
+    </div>
+  </main>
+);
+;}
 // ...existing code...}
 };
 
