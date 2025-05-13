@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Chart from "chart.js/auto";
+import { Link } from "react-router-dom";
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react';
 import Sidebar from '../components/Sidebar';
 
@@ -110,6 +111,11 @@ const Dashboard = () => {
     return (!filter || sev === filter) && (!search || msg.includes(search));
   });
 
+
+  const isIPv4 = (ip) => {
+    const regex = /^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$/;
+    return regex.test(ip);
+  };
   return (
     <div className=" w-full text-white">
       {/* <header>
@@ -196,7 +202,14 @@ const Dashboard = () => {
                       <td className="px-4 py-3 font-bold border border-white/20" style={{ color: sevColor }}>
                         {sev}
                       </td>
-                      <td className="px-4 py-3 border border-white/20"><a href="">{r[4]}</a></td>
+                      <td className="px-4 py-3 border border-white/20">
+                        {isIPv4(r[4]) ? (<Link 
+                          to={`/log_storage/ipinfo/${r[4]}`}>
+                            {r[4]}
+                        </Link>) :
+                          (<p>{r[4]}</p>)
+                        }
+                      </td>
                     </tr>
                   );
                 })}

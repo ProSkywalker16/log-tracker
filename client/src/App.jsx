@@ -5,6 +5,7 @@ import MainLayout from '../layout/MainLayout';
 import Database from '../pages/Database';
 import Settings from '../pages/Settings';
 import Login from '../pages/Login';
+import IPInfo from '../pages/IPInfo';
 import React from 'react';
 
 // Route guard component
@@ -43,6 +44,14 @@ const appRouter = createBrowserRouter([
         element: (
           <PrivateRoute>
             <Settings />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: '/log_storage/ipinfo/:ip',
+        element: (
+          <PrivateRoute>
+            <IPInfo />
           </PrivateRoute>
         )
       }
