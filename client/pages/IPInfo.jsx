@@ -24,7 +24,7 @@ const IPInfo = () => {
   if (isPrivateIP(ip)) {
     return (
       <main className="sm:ml-28 text-white p-10 rounded shadow-md">
-        <h2 className="text-2xl font-bold mb-4">PRIVATE IP: check your team</h2>
+        <h2 className="text-2xl font-bold mb-4">PRIVATE IP: check with your team</h2>
         <p className="text-lg">The IP {ip} is a private address and cannot be geolocated.</p>
       </main>
     );
