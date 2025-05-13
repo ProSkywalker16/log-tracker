@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import L from 'leaflet';
 import { AlertTriangle } from "lucide-react";
+import { CheckCircle } from "lucide-react"
 
 // Utility to check for private IP ranges
 const isPrivateIP = (ip) => {
@@ -65,44 +66,59 @@ const IPInfo = () => {
   }, [ip]);
 
   return (
-    <main className="sm:ml-28 text-white p-10 rounded shadow-md">
-      <h2 className="text-2xl font-bold mb-4">IP Information</h2>
-      <div className="flex flex-col md:flex-row p-10 gap-6">
-        <table className="min-w-[300px] md:w-1/2 bg-[#bfbfbf21] text-white rounded shadow border border-gray-700">
-          <tbody>
-            <tr>
-              <th className="text-left px-4 py-2 font-semibold border-b border-gray-700">IP Address</th>
-              <td className="px-4 py-2 border-b border-gray-700">{ip}</td>
-            </tr>
-            <tr>
-              <th className="text-left px-4 py-2 font-semibold border-b border-gray-700">Bogon</th>
-              <td className="px-4 py-2 border-b border-gray-700">{mapData.get("bogon") ? "true" : "false"}</td>
-            </tr>
-            <tr>
-              <th className="text-left px-4 py-2 font-semibold border-b border-gray-700">City</th>
-              <td className="px-4 py-2 border-b border-gray-700">{mapData.get("city")}</td>
-            </tr>
-            <tr>
-              <th className="text-left px-4 py-2 font-semibold border-b border-gray-700">Region</th>
-              <td className="px-4 py-2 border-b border-gray-700">{mapData.get("region")}</td>
-            </tr>
-            <tr>
-              <th className="text-left px-4 py-2 font-semibold border-b border-gray-700">Country</th>
-              <td className="px-4 py-2 border-b border-gray-700">{mapData.get("country")}</td>
-            </tr>
-            <tr>
-              <th className="text-left px-4 py-2 font-semibold border-b border-gray-700">Latitude</th>
-              <td className="px-4 py-2 border-b border-gray-700">{mapData.get("latitude")}</td>
-            </tr>
-            <tr>
-              <th className="text-left px-4 py-2 font-semibold">Longitude</th>
-              <td className="px-4 py-2">{mapData.get("longitude")}</td>
-            </tr>
-          </tbody>
-        </table>
-        <div id="map" className="md:w-3/4 rounded shadow border border-gray-700" style={{ height: "300px" }}></div>
-      </div>
-    </main>
+
+<main className="sm:ml-28 h-screen text-white p-10 rounded shadow-md">
+  
+  <div className="flex items-center gap-2 mb-6 text-green-500">
+    <CheckCircle className="w-5 h-5" />
+    <span className="text-2xl font-medium">IP successfully traced</span>
+  </div>
+
+  <h2 className="text-2lg font-bold mb-2">IP Information</h2>
+
+
+  <div className="flex flex-col md:flex-row p-10 gap-6">
+    <table className="min-w-[300px] md:w-1/2 bg-[#bfbfbf21] text-white rounded shadow border border-gray-700">
+      <tbody>
+        <tr>
+          <th className="text-left px-4 py-2 font-semibold border-b border-gray-700">IP Address</th>
+          <td className="px-4 py-2 border-b border-gray-700">{ip}</td>
+        </tr>
+        <tr>
+          <th className="text-left px-4 py-2 font-semibold border-b border-gray-700">Bogon</th>
+          <td className="px-4 py-2 border-b border-gray-700">{mapData.get("bogon") ? "true" : "false"}</td>
+        </tr>
+        <tr>
+          <th className="text-left px-4 py-2 font-semibold border-b border-gray-700">City</th>
+          <td className="px-4 py-2 border-b border-gray-700">{mapData.get("city")}</td>
+        </tr>
+        <tr>
+          <th className="text-left px-4 py-2 font-semibold border-b border-gray-700">Region</th>
+          <td className="px-4 py-2 border-b border-gray-700">{mapData.get("region")}</td>
+        </tr>
+        <tr>
+          <th className="text-left px-4 py-2 font-semibold border-b border-gray-700">Country</th>
+          <td className="px-4 py-2 border-b border-gray-700">{mapData.get("country")}</td>
+        </tr>
+        <tr>
+          <th className="text-left px-4 py-2 font-semibold border-b border-gray-700">Latitude</th>
+          <td className="px-4 py-2 border-b border-gray-700">{mapData.get("latitude")}</td>
+        </tr>
+        <tr>
+          <th className="text-left px-4 py-2 font-semibold">Longitude</th>
+          <td className="px-4 py-2">{mapData.get("longitude")}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div
+      id="map"
+      className="md:w-3/4 rounded shadow border border-gray-700"
+      style={{ height: "300px" }}
+    ></div>
+  </div>
+</main>
+
   );
 };
 
