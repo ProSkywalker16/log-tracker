@@ -39,9 +39,10 @@ const Dashboard = () => {
 
   const fetchLogs = async () => {
     try {
-      const res = await fetch("http://192.168.0.182:5000/log_storage");     // honurag port
+      const res = await fetch("http://192.168.0.170:5000/log_storage");
       // const res = await fetch("http://192.168.0.170:5000/log_storage");    // proskywalker port
       // const res = await fetch("http://192.168.0.170:5000/log_storage"); // shiva port
+      //const res = await fetch("http://192.168.0.182:5000/log_storage");     // honurag port
       const data = await res.json();
       setLogs(data);
       setLastUpdate(new Date().toLocaleTimeString());
@@ -141,7 +142,7 @@ const Dashboard = () => {
         </nav>
       </header> */}
 
-      
+
       <main className="sm:ml-28 text-white p-5 rounded shadow-md">
         <div className="flex flex-col lg:flex-row gap-6">
 
@@ -154,7 +155,7 @@ const Dashboard = () => {
               <h2 className="text-lg font-semibold mb-2">
                 Log Data (<span className="text-red-600">{filteredLogs.length}</span>)
               </h2>
-              
+
               <select
                 value={filter}
                 onChange={(e) => setFilter(e.target.value)}
@@ -189,7 +190,7 @@ const Dashboard = () => {
                     LOW: "#008000",
                     MEDIUM: "#FFD700",
                     CRITICAL: "#FF0000",
-                  } [sev] || "#FFF";
+                  }[sev] || "#FFF";
                   return (
                     <tr
                       key={idx}
@@ -203,9 +204,9 @@ const Dashboard = () => {
                         {sev}
                       </td>
                       <td className="px-4 py-3 border border-white/20">
-                        {isIPv4(r[4]) ? (<Link 
+                        {isIPv4(r[4]) ? (<Link
                           to={`/log_storage/ipinfo/${r[4]}`}>
-                            {r[4]}
+                          {r[4]}
                         </Link>) :
                           (<p>{r[4]}</p>)
                         }
@@ -220,12 +221,12 @@ const Dashboard = () => {
           </div>
         </div>
         <footer className="text-center text-sm text-slate-400 mt-10">
-        &copy; 2025 Log Tracker by Proskywalker, Honurag Hottacharjee, Holy Father aka RIYAL POPE..
-      </footer>
+          &copy; 2025 Log Tracker by Proskywalker, Honurag Hottacharjee, Holy Father aka RIYAL POPE..
+        </footer>
       </main>
 
 
-      
+
     </div>
   );
 };
