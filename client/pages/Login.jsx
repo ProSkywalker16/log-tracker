@@ -5,64 +5,34 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleDummyLogin = () => {
-    localStorage.setItem('isAuthenticated', 'true');
-    navigate('/');
+    localStorage.setItem("isAuthenticated", "true");
+    navigate("/");
   };
 
   return (
-    <div className="h-screen flex items-center justify-center">
-      <div className="bg-white/10 backdrop-blur-md rounded-2xl flex w-1/2 max-w-full h-7/10">
+    <div className="h-screen flex items-center justify-center bg-gradient-to-br from-[#0a0a23] to-[#1c1c3c] p-6">
+      <div className="bg-white/10 backdrop-blur-md rounded-2xl flex w-full max-w-md flex-col items-center p-8 space-y-6">
+        {/* Logo */}
+        <img src="/logo.jpg" alt="Obi‑Watch‑Kenobi Logo" className="w-35 h-35 mb-4" />
 
-        {/* Left Side */}
-        <div className="w-2/3 bg-transparent flex flex-col items-center justify-center p-6">
-          <h2 className="text-2xl font-bold text-white mb-4">Login</h2>
-
-          {/* Social Icons */}
-          <div className="flex space-x-4 mb-6">
-            <img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg"
-              alt="Google"
-              className="w-8 h-8 bg-white rounded-full p-1 cursor-pointer"
-            />
-            <img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
-              alt="GitHub"
-              className="w-8 h-8 bg-white rounded-full p-1 cursor-pointer"
-            />
-            <img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg"
-              alt="LinkedIn"
-              className="w-8 h-8 bg-white rounded-full p-1 cursor-pointer"
-            />
-          </div>
-
-          {/* Form */}
-          <div className="w-full max-w-xs">
-            <input
-              type="email"
-              placeholder="Email"
-              className="w-full mb-4 px-4 py-2 rounded-full bg-purple-600 text-white placeholder-gray-300 focus:outline-none"
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full mb-4 px-4 py-2 rounded-full bg-purple-600 text-white placeholder-gray-300 focus:outline-none"
-            />
-            <button
-              onClick={handleDummyLogin}
-              className="w-full bg-purple-500 hover:bg-purple-600 text-white font-semibold py-2 rounded-lg transition"
-            >
-              Login
-            </button>
-          </div>
-        </div>
-
-        {/* Right Side */}
-        <div className="w-1/3 bg-white/20 backdrop-blur-md rounded-tr-2xl rounded-br-2xl flex flex-col items-center justify-center p-6 text-white">
-          <h2 className="text-2xl font-bold mb-2">Welcome Back!</h2>
-          <p className="mb-6 text-sm">First Time? Create an account!</p>
-          <button className="bg-purple-500 hover:bg-purple-600 px-6 py-2 rounded-lg font-semibold transition">
-            Sign Up
+        {/* Login Form */}
+        <h2 className="text-3xl font-bold text-white">Login</h2>
+        <div className="w-full space-y-4">
+          <input
+            type="email"
+            placeholder="Email"
+            className="w-full px-4 py-2 rounded-full bg-purple-600 text-white placeholder-gray-300 focus:outline-none"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            className="w-full px-4 py-2 rounded-full bg-purple-600 text-white placeholder-gray-300 focus:outline-none"
+          />
+          <button
+            onClick={handleDummyLogin}
+            className="w-full bg-purple-500 hover:bg-purple-600 text-white font-semibold py-2 rounded-full transition"
+          >
+            Login
           </button>
         </div>
       </div>
