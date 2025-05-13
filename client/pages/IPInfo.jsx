@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import L from 'leaflet';
+import { AlertTriangle } from "lucide-react";
 
 // Utility to check for private IP ranges
 const isPrivateIP = (ip) => {
@@ -22,13 +23,15 @@ const IPInfo = () => {
 
   // If IP is private, show special message
   if (isPrivateIP(ip)) {
-    return (
-      <main className="sm:ml-28 text-white p-10 rounded shadow-md">
-        <h2 className="text-2xl font-bold mb-4">PRIVATE IP: check with your team</h2>
-        <p className="text-lg">The IP {ip} is a private address and cannot be geolocated.</p>
-      </main>
-    );
-  }
+  return (
+    <main className="h-screen sm:ml-28 text-white p-10 rounded shadow-md flex flex-col items-center justify-center text-center">
+      <AlertTriangle className="text-red-500 w-12 h-12 mb-4" />
+      <h2 className="text-2xl text-red-500 font-bold mb-2">PRIVATE IP</h2>
+      <h2 className="text-2xl  font-bold mb-2">Check with your team</h2>
+      <p className="text-lg">The IP {ip} is a private address and cannot be geolocated.</p>
+    </main>
+  );
+}
 
   useEffect(() => {
     if (mapRef.current == null) {
@@ -47,7 +50,8 @@ const IPInfo = () => {
   useEffect(() => {
     const fetchIPInfo = async () => {
       try {
-        const response = await fetch(`http://192.168.0.170:5000/log_storage/ipinfo?ip_address=${ip}`);
+        // const response = await fetch(`http://192.168.0.170:5000/log_storage/ipinfo?ip_address=${ip}`);
+        const response = await fetch(`http://192.168.0.182:5000/log_storage/ipinfo?ip_address=${ip}`);
         const data = await response.json();
         const md = new Map(Object.entries(JSON.parse(data)));
         setMappedData(md);
