@@ -42,7 +42,7 @@ const Dashboard = () => {
       // const res = await fetch("http://192.168.0.170:5000/log_storage");
       // const res = await fetch("http://192.168.0.170:5000/log_storage");    // proskywalker port
       // const res = await fetch("http://192.168.0.170:5000/log_storage"); // shiva port
-      const res = await fetch("http://192.168.0.170:5000/log_storage");     // honurag port
+      const res = await fetch("http://192.168.31.160:5000/log_storage");     // honurag port
       const data = await res.json();
       setLogs(data);
       setLastUpdate(new Date().toLocaleTimeString());
