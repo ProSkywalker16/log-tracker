@@ -51,8 +51,8 @@ const IPInfo = () => {
   useEffect(() => {
     const fetchIPInfo = async () => {
       try {
-        const response = await fetch(`http://192.168.31.160:5000/log_storage/ipinfo?ip_address=${ip}`);
-        // const response = await fetch(`http://192.168.0.170:5000/log_storage/ipinfo?ip_address=${ip}`);
+        const response = await fetch(`http://192.168.0.170:5000/log_storage/ipinfo?ip_address=${ip}`);
+        // const response = await fetch(`http://192.168.31.160:5000/log_storage/ipinfo?ip_address=${ip}`);
         const data = await response.json();
         const md = new Map(Object.entries(JSON.parse(data)));
         setMappedData(md);
