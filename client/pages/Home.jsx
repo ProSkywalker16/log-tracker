@@ -28,8 +28,23 @@ function Home() {
     setIsAuthenticated(false);
   };
 
+  // Header component
+  const Header = () => (
+    <header className="absolute top-4 text-sm text-gray-500 text-center w-full z-20">
+      <TextHoverEffect text="OBI WATCH KENOBI" />
+    </header>
+  );
+
+  // Footer component
+  const Footer = () => (
+    <footer className="absolute bottom-4 text-sm text-gray-500 text-center w-full z-20">
+      <p>© 2025 Obi‑Watch‑Kenobi by Proskywalker, Honurag Hottacharjee, and Holy Father Riyal Pope.</p>
+    </footer>
+  );
+
   return (
     <div className="h-screen flex flex-col items-center justify-center bg-black text-white overflow-hidden relative">
+      <Header /> {/* Render the Header component */}
       {isAuthenticated ? (
         // ============ LOGGED IN PAGE ============
         <div className="flex flex-col items-center w-full">
@@ -50,11 +65,6 @@ function Home() {
               </button>
             </div>
           </div>
-
-          <footer className="absolute bottom-4 text-sm text-gray-500 text-center w-full">
-            <TextHoverEffect text="OBI WATCH KENOBI" />
-            <p>© 2025 Obi‑Watch‑Kenobi by Proskywalker, Honurag Hottacharjee, and Holy Father Riyal Pope.</p>
-          </footer>
         </div>
       ) : (
         // ============ LOGGED OUT PAGE ============
@@ -88,11 +98,7 @@ function Home() {
               Sign In to Get Started
             </button>
           </div>
-
-          <footer className="absolute bottom-4 text-sm text-gray-500 text-center w-full z-20">
-            <TextHoverEffect text="OBI WATCH KENOBI" />
-            <p>© 2025 Obi‑Watch‑Kenobi by Proskywalker, Honurag Hottacharjee, and Holy Father Riyal Pope.</p>
-          </footer>
+          <Footer /> {/* Render the Footer component */}
         </div>
       )}
     </div>
