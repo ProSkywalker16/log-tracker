@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { TextHoverEffect } from '../components/ui/text-hover-effect';
 import { TypewriterEffectSmooth } from '../components/ui/typewriter-effect';
 import GlobeDemo from '../components/ui/globe';
+import Sidebar from '../components/Sidebar';
 
 function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
