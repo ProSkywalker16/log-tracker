@@ -44,6 +44,7 @@ const Dashboard = () => {
       // const res = await fetch("http://192.168.0.170:5000/log_storage");
       // const res = await fetch("http://192.168.0.170:5000/log_storage");    // proskywalker port
       // const res = await fetch("http://192.168.31.160:5000/log_storage"); // shiva port
+<<<<<<< Updated upstream
       // const res = await fetch("http://192.168.0.170:5000/log_storage");     // honurag port
 
       const res = await axios.get(
@@ -71,6 +72,13 @@ const Dashboard = () => {
           alert('Error in request')
         }
       });
+=======
+      const res = await fetch("http://192.168.0.182:5000/log_storage");     // honurag port
+      const data = await res.json();
+      setLogs(data);
+      setLastUpdate(new Date().toLocaleTimeString());
+      updatePieChart(data);
+>>>>>>> Stashed changes
     } catch (err) {
       console.error("Error fetching logs:", err);
     }
