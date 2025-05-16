@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import L from 'leaflet';
 import { AlertTriangle } from "lucide-react";
 import { CheckCircle } from "lucide-react"
@@ -21,6 +21,7 @@ const IPInfo = () => {
   const [mapData, setMappedData] = useState(new Map());
   const [latlng, setCoords] = useState([51.505, -0.09]);
   const mapRef = useRef(null);
+  const navigate = useNavigate();
 
   // If IP is private, show special message
   if (isPrivateIP(ip)) {
@@ -51,13 +52,34 @@ const IPInfo = () => {
   useEffect(() => {
     const fetchIPInfo = async () => {
       try {
-        const response = await fetch(`http://192.168.0.170:5000/log_storage/ipinfo?ip_address=${ip}`);
+        // const response = await fetch(`http://192.168.0.170:5000/log_storage/ipinfo?ip_address=${ip}`);
         // const response = await fetch(`http://192.168.31.160:5000/log_storage/ipinfo?ip_address=${ip}`);
-        const data = await response.json();
-        const md = new Map(Object.entries(JSON.parse(data)));
-        setMappedData(md);
-        const ll = [parseFloat(md.get("latitude")), parseFloat(md.get("longitude"))];
-        setCoords(ll);
+        axios.get(
+          `http://192.168.0.170:5000/log_storage/ipinfo?ip_address=${ip}`,
+          {
+            headers: {
+              "Authorization": `Bearer ${localStorage.getItem("access_token")}`,
+              "Content-Type": "application/json",
+            },
+          }
+        ).then(res => {
+          const data = res.data;
+          const md = new Map(Object.entries(JSON.parse(data)));
+          setMappedData(md);
+          const ll = [parseFloat(md.get("latitude")), parseFloat(md.get("longitude"))];
+          setCoords(ll);
+        }).catch(error => {
+          if (error.response) {
+          alert(`${error.response.status}: ${error.response.data.msg}`);
+          navigate("/");
+        } 
+        else if (error.request) {
+          alert('No Responsor From Server')
+        } 
+        else {
+          alert('Error in request')
+        }
+      });
       } catch (error) {
         console.error(error);
       }

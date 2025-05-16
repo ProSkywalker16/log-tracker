@@ -1,12 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
 
-  const handleDummyLogin = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleDummyLogin = async () =>{
     localStorage.setItem("isAuthenticated", "true");
-    navigate("/");
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("pwd", password);
+    response = axios.post(
+      "http://192.168.0.170:5000/login",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "Accept": "application/json",
+        },
+      }
+    ).then((res) => {
+      const data = res.data;
+      if (data.access_token){
+        localStorage.setItem("access_token", data.access_token);
+        alert('Login successful.');
+        navigate("/");
+      }
+      else{
+        alert("Unidentified error");
+      }
+    }).catch((error) => {
+      if (error.response) {
+        alert(`${error.response.status}: ${error.response.data.msg}`);
+      } 
+      else if (error.request) {
+        alert('No Responsor From Server')
+      } 
+      else {
+        alert('Error in request')
+      }
+    });
   };
 
   return (
@@ -21,11 +57,13 @@ const Login = () => {
           <input
             type="email"
             placeholder="Email"
+            onChange={(e) => setEmail(e.target.value)}
             className="w-full px-4 py-2 rounded-full bg-purple-600 text-white placeholder-gray-300 focus:outline-none"
           />
           <input
             type="password"
             placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
             className="w-full px-4 py-2 rounded-full bg-purple-600 text-white placeholder-gray-300 focus:outline-none"
           />
           <button

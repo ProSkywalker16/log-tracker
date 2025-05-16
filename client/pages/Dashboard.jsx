@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import Chart from "chart.js/auto";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react';
 import Sidebar from '../components/Sidebar';
+import axios from "axios";
 
 const severityColors = {
   INFO: "#800080",
@@ -22,6 +23,7 @@ const Dashboard = () => {
   const [lastUpdate, setLastUpdate] = useState("");
   const chartRef = useRef(null);
   const pieChart = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!username) {
@@ -42,11 +44,33 @@ const Dashboard = () => {
       // const res = await fetch("http://192.168.0.170:5000/log_storage");
       // const res = await fetch("http://192.168.0.170:5000/log_storage");    // proskywalker port
       // const res = await fetch("http://192.168.31.160:5000/log_storage"); // shiva port
-      const res = await fetch("http://192.168.0.170:5000/log_storage");     // honurag port
-      const data = await res.json();
-      setLogs(data);
-      setLastUpdate(new Date().toLocaleTimeString());
-      updatePieChart(data);
+      // const res = await fetch("http://192.168.0.170:5000/log_storage");     // honurag port
+
+      const res = await axios.get(
+        "http://192.168.0.170:5000/log_storage",
+        {
+          headers: {
+            "Authorization": `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      ).then(res => {
+        const data = res.data;
+        setLogs(data);
+        setLastUpdate(new Date().toLocaleTimeString());
+        updatePieChart(data);
+      }).catch(error => {
+        if (error.response) {
+          alert(`${error.response.status}: ${error.response.data.msg}`);
+          navigate("/");
+        } 
+        else if (error.request) {
+          alert('No Responsor From Server')
+        } 
+        else {
+          alert('Error in request')
+        }
+      });
     } catch (err) {
       console.error("Error fetching logs:", err);
     }
