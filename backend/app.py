@@ -1,24 +1,45 @@
 # app.py
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, session
 from flask_mysqldb import MySQL
 from flask_cors import CORS
 from dotenv import load_dotenv
 import os
+import hashlib
+import secrets
 from utils.ipinfofetcher import getIPDetails
+from datetime import timedelta
 
-# Load .env into environment
+# Load environment variables
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, supports_credentials=True)  # Allow credentials for login sessions
 
-# Configuration for MySQL database connection from env vars
+# Session configuration
+app.secret_key = os.getenv('SECRET_KEY', 'supersecretkey')
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)
+
+# MySQL config
 app.config['MYSQL_HOST']     = os.getenv('MYSQL_HOST')
 app.config['MYSQL_USER']     = os.getenv('MYSQL_USER')
 app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD')
 app.config['MYSQL_DB']       = os.getenv('MYSQL_DB')
 
 mysql = MySQL(app)
+
+# ─── Helper: salted hash utilities ────────────────────────────────────────────
+
+def generate_salt() -> str:
+    """Return a new, random 16-byte salt as a 32‑char hex string."""
+    return secrets.token_hex(16)
+
+def hash_password(password: str, salt: str) -> str:
+    """
+    Return the hex‑encoded SHA‑256 of (salt + password).
+    """
+    return hashlib.sha256((salt + password).encode()).hexdigest()
+
+# ─── Routes ───────────────────────────────────────────────────────────────────
 
 @app.route('/')
 def index():
@@ -51,7 +72,6 @@ def get_log_storage():
     cursor.execute('SELECT * FROM log_storage')
     data = cursor.fetchall()
     cursor.close()
-    print(data[0][4])
     return jsonify(data)
 
 @app.route('/log_storage/filter', methods=['GET'])
@@ -74,6 +94,86 @@ def filter_log_storage():
     data = cursor.fetchall()
     cursor.close()
     return jsonify(data)
+
+# ─── Registration Endpoint with secret code ───────────────────────────────────
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.get_json()
+    email = data.get('email', '').strip().lower()
+    password = data.get('password', '')
+    secret_code = data.get('secret_code', '')
+
+    if not email or not password or not secret_code:
+        return jsonify({'error': 'Missing email, password or secret code'}), 400
+
+    # Check secret code
+    if secret_code != "rohanisgay":
+        return jsonify({'error': 'Invalid secret code'}), 403
+
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
+    if cursor.fetchone():
+        cursor.close()
+        return jsonify({'error': 'User already exists'}), 409
+
+    salt = os.urandom(16).hex()
+    hashed_password = hashlib.scrypt(
+        password.encode(), salt=bytes.fromhex(salt), n=16384, r=8, p=1
+    ).hex()
+
+    cursor.execute(
+        "INSERT INTO users (email, password, salt) VALUES (%s, %s, %s)",
+        (email, hashed_password, salt)
+    )
+    mysql.connection.commit()
+    cursor.close()
+
+    return jsonify({'message': 'User registered successfully'}), 201
+
+# ─── Login System ─────────────────────────────────────────────────────────────
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    email = data.get('email', '').strip().lower()
+    password = data.get('password', '')
+
+    if not email or not password:
+        return jsonify({'error': 'Missing email or password'}), 400
+
+    cursor = mysql.connection.cursor()
+    cursor.execute(
+        "SELECT password, salt FROM users WHERE email = %s",
+        (email,)
+    )
+    row = cursor.fetchone()
+    cursor.close()
+
+    if row:
+        stored_hash, salt = row
+        test_hash = hashlib.scrypt(
+            password.encode(), salt=bytes.fromhex(salt), n=16384, r=8, p=1
+        ).hex()
+        if test_hash == stored_hash:
+            session.permanent = True
+            session['authenticated'] = True
+            session['user_email'] = email
+            return jsonify({'message': 'Login successful'}), 200
+
+    return jsonify({'error': 'Invalid email or password'}), 401
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    session.clear()
+    return jsonify({'message': 'Logged out'}), 200
+
+@app.route('/protected', methods=['GET'])
+def protected():
+    if session.get('authenticated'):
+        return jsonify({'message': f"Welcome, {session.get('user_email')}!"}), 200
+    return jsonify({'error': 'Unauthorized'}), 401
+
+# ─── Main ────────────────────────────────────────────────────────────────────
 
 if __name__ == '__main__':
     app.run(
