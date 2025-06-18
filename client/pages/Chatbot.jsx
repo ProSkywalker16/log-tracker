@@ -80,30 +80,31 @@ function ChatBot() {
 
     return (
         <div className="max-w-[960px] mx-auto border border-blue-500 mt-20 rounded-lg p-4" ref={ref}>
-            <div className="absolute inset-0 z-0 pointer-events-none opacity-20">
-            {/* <GoogleGeminiEffect
-                pathLengths={[
-                    pathLengthFirst,
-                    pathLengthSecond,
-                    pathLengthThird,
-                    pathLengthFourth,
-                    pathLengthFifth,
-                ]}
-            /> */}
-        </div>
-            <h1 className="text-center text-lg text-blue-500 font-semibold mb-4">Database Chat Assistant</h1>
+            
+            <h1 className="text-center text-3xl text-blue-500 font-semibold mb-10">Database Chat Assistant - built using Gemini API</h1>
 
             <div className="space-y-4 min-h-[400px] max-h-[400px] overflow-y-auto mb-4 flex flex-col">
+                {/* <div className="absolute inset-0 z-0 pointer-events-none opacity-20">
+                    <GoogleGeminiEffect
+                        pathLengths={[
+                            pathLengthFirst,
+                            pathLengthSecond,
+                            pathLengthThird,
+                            pathLengthFourth,
+                            pathLengthFifth,
+                        ]}
+                    />
+                </div> */}
                 {messages.map((msg, idx) => (
                     <div
                         key={idx}
-                        className={`p-3 rounded-xl w-fit max-w-full ${
+                        className={`p-3 rounded-xl w-fit max-w-xl ${
                             msg.role === 'user' 
-                                ? 'bg-blue-100 self-end ml-auto' 
-                                : 'bg-gray-100 self-start'
+                                ? 'bg-blue-600 self-end ml-auto' 
+                                : 'bg-[#26008f] self-start'
                         }`}
                     >
-                        <p className="text-gray-800 whitespace-pre-wrap">{msg.text}</p>
+                        <p className="text-gray-200 whitespace-pre-wrap">{msg.text}</p>
                     </div>
                 ))}
                 {loading && (
