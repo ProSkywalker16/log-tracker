@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, Grid, Database, BookOpen, Settings, Home } from 'lucide-react';
+import { Menu, Grid, Database, BookOpen, Settings, Home, BotIcon } from 'lucide-react';
 
 const Sidebar = () => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -7,7 +7,7 @@ const Sidebar = () => {
 	const menuItems = [
 		{ name: 'Home', icon: <Home />, link: '/' },
 		{ name: 'Dashboard', icon: <Grid />, link: '/dashboard' },
-		{ name: 'Database', icon: <Database />, link: '/database' },
+		{ name: 'Chatbot', icon: <BotIcon />, link: '/chatbot' },
 		{ name: 'Settings', icon: <Settings />, link: '/settings' },
 	];
 

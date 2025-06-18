@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
+import { Icon } from 'lucide-react';
+import Float from '../components/Float';
 
 const MainLayout = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem('isAuthenticated') === 'true');
@@ -23,6 +25,7 @@ const MainLayout = () => {
       <div className="flex-1">
         <Outlet />
       </div>
+      { isAuthenticated && <Float />}
     </div>
   );
 };
