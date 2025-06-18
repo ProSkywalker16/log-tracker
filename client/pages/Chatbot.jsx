@@ -1,6 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 
+import { useScroll, useTransform } from "motion/react";
+import { GoogleGeminiEffect } from "../components/ui/google-gemini-effect";
+
 function ChatBot() {
     const [prompt, setPrompt] = useState("");
     const [messages, setMessages] = useState([
@@ -23,7 +26,7 @@ function ChatBot() {
         setPrompt("");
 
         try {
-            const { data } = await axios.post("http://192.168.0.135:5000/api/chat", {
+            const { data } = await axios.post("http://192.168.0.137:5000/api/chat", {
                 question: prompt
             }, {
                 timeout: 15000 // 15 second timeout
@@ -63,8 +66,31 @@ function ChatBot() {
         }
     };
 
+    const ref = React.useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: ref,
+        offset: ["start start", "end start"],
+    });
+
+    const pathLengthFirst = useTransform(scrollYProgress, [0, 0.8], [0.2, 1.2]);
+    const pathLengthSecond = useTransform(scrollYProgress, [0, 0.8], [0.15, 1.2]);
+    const pathLengthThird = useTransform(scrollYProgress, [0, 0.8], [0.1, 1.2]);
+    const pathLengthFourth = useTransform(scrollYProgress, [0, 0.8], [0.05, 1.2]);
+    const pathLengthFifth = useTransform(scrollYProgress, [0, 0.8], [0, 1.2]);
+
     return (
-        <div className="max-w-[960px] mx-auto border border-blue-500 mt-20 rounded-lg p-4">
+        <div className="max-w-[960px] mx-auto border border-blue-500 mt-20 rounded-lg p-4" ref={ref}>
+            <div className="absolute inset-0 z-0 pointer-events-none opacity-20">
+            {/* <GoogleGeminiEffect
+                pathLengths={[
+                    pathLengthFirst,
+                    pathLengthSecond,
+                    pathLengthThird,
+                    pathLengthFourth,
+                    pathLengthFifth,
+                ]}
+            /> */}
+        </div>
             <h1 className="text-center text-lg text-blue-500 font-semibold mb-4">Database Chat Assistant</h1>
 
             <div className="space-y-4 min-h-[400px] max-h-[400px] overflow-y-auto mb-4 flex flex-col">
