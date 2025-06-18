@@ -5,6 +5,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 import os
 import hashlib
+from google import genai
 import secrets
 from utils.ipinfofetcher import getIPDetails
 from datetime import timedelta
@@ -18,6 +19,9 @@ CORS(app, supports_credentials=True)  # Allow credentials for login sessions
 # Session configuration
 app.secret_key = os.getenv('SECRET_KEY', 'supersecretkey')
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)
+
+# Gemini API client
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 # MySQL config
 app.config['MYSQL_HOST']     = os.getenv('MYSQL_HOST')
@@ -94,6 +98,67 @@ def filter_log_storage():
     data = cursor.fetchall()
     cursor.close()
     return jsonify(data)
+
+@app.route('/api/chat', methods=['POST'])
+def chat():
+    try:
+        #if not model:
+        #    return jsonify({"answer": "AI service is not available. Please try again later."})
+
+        question = request.json.get('question', '').strip()
+        if not question:
+            return jsonify({"answer": "Please provide a question."})
+
+        #logger.info(f" Received question: {question}")
+
+        try:
+            #conn = get_db_connection()
+            #cursor = conn.cursor()
+            cursor = mysql.connection.cursor()
+            cursor.execute("DESCRIBE log_storage")
+            schema = cursor.fetchall()
+            cursor.execute('SELECT * FROM log_storage')
+            sample_data = cursor.fetchall()
+            cursor.close()
+            #return jsonify(sample_data)
+        except Exception as db_error:
+            return jsonify({"answer": "Database connection failed."})
+    
+        
+        prompt = f"""
+            You are a helpful assistant for a SIEM system. Answer questions about the 'logs' table.
+
+            TABLE SCHEMA:
+            {schema}
+
+            SAMPLE DATA:
+            {sample_data}
+
+            USER QUESTION:
+            "{question}"
+
+            Respond in a clear, user-friendly way without showing SQL code.
+        """
+        '''
+        # Generate content with Gemini
+        try:
+            logger.info(" Sending prompt to Gemini...")
+            response = model.generate_content(prompt)
+            return jsonify({"answer": response.text})
+        except Exception as ai_error:
+            logger.error(f" Gemini API error: {str(ai_error)}")
+            return jsonify({"answer": "AI failed to generate a response. Please try again."})
+        '''
+        try:
+            response = client.models.generate_content(
+                model="models/gemini-1.5-flash-8b",
+                contents=prompt,
+            )
+            return jsonify({"answer": response.text})
+        except Exception as ai_error:
+            return jsonify({"answer": "AI failed to generate a response. Please try again."})
+    except Exception as e:
+        return jsonify({"answer": "An unexpected error occurred. Please try again."})
 
 # ─── Registration Endpoint with secret code ───────────────────────────────────
 @app.route('/register', methods=['POST'])
