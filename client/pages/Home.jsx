@@ -10,7 +10,7 @@ function Home() {
   const navigate = useNavigate();
 
   const words = [
-    { text: "A", }, { text: "modern" }, { text: "SIEM" },
+    { text: "A", }, { text: "modern" }, { text: "SIEM" }, { text: "and EDR" },
     { text: "system, " }, { text: "powered" }, { text: "by" },
     { text: "AI-Driven" }, { text: "detection" }, { text: "with" },
     { text: "live" }, { text: "visualization" }, { text: "and" },
@@ -39,7 +39,7 @@ function Home() {
   // Footer component
   const Footer = () => (
     <footer className="absolute bottom-4 text-sm text-gray-500 text-center w-full z-20">
-      <p>© 2025 Obi‑Watch‑Kenobi by Proskywalker, Honurag Hottacharjee, and Holy Father Riyal Pope.</p>
+      <p>© 2025 Obi‑Watch‑Kenobi by Proskywalker, Honurag Hottacharjee, Felle kelabo and Holy Father Riyal Pope.</p>
     </footer>
   );
 

@@ -221,7 +221,7 @@ const Dashboard = () => {
           </div>
         </div>
         <footer className="text-center text-sm text-slate-400 mt-10">
-          &copy; 2025 Log Tracker by Proskywalker, Honurag Hottacharjee, Holy Father aka RIYAL POPE..
+          &copy; 2025 Log Tracker by Proskywalker, Honurag Hottacharjee, Felle Kelabo and Holy Father aka RIYAL POPE..
         </footer>
       </main>
 
